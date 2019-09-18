@@ -1,7 +1,7 @@
-package com.forhadmethun.simplesearchapplication.developer;
+package com.sharifulbony.api.developer;
         import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-        import com.forhadmethun.simplesearchapplication.language.LanguageEntity;
-        import com.forhadmethun.simplesearchapplication.programminglanguage.ProgrammingLanguageEntity;
+        import com.sharifulbony.api.language.LanguageEntity;
+        import com.sharifulbony.api.programminglanguage.ProgrammingLanguageEntity;
         import lombok.AllArgsConstructor;
         import lombok.Data;
         import lombok.NoArgsConstructor;

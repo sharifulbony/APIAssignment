@@ -1,4 +1,4 @@
-package com.forhadmethun.simplesearchapplication.interview;
+package com.sharifulbony.api.interview;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,4 +1,4 @@
-package com.forhadmethun.simplesearchapplication;
+package com.sharifulbony.api;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;

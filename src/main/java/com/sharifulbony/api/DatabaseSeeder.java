@@ -1,18 +1,17 @@
-package com.forhadmethun.simplesearchapplication;
+package com.sharifulbony.api;
 
-import com.forhadmethun.simplesearchapplication.developer.DeveloperEntity;
-import com.forhadmethun.simplesearchapplication.developer.DeveloperRepository;
-import com.forhadmethun.simplesearchapplication.interview.InterviewEntity;
-import com.forhadmethun.simplesearchapplication.interview.InterviewRepository;
-import com.forhadmethun.simplesearchapplication.language.LanguageEntity;
-import com.forhadmethun.simplesearchapplication.language.LanguageRepository;
-import com.forhadmethun.simplesearchapplication.programminglanguage.ProgrammingLanguageEntity;
-import com.forhadmethun.simplesearchapplication.programminglanguage.ProgrammingLanguageRepository;
+import com.sharifulbony.api.developer.DeveloperEntity;
+import com.sharifulbony.api.developer.DeveloperRepository;
+import com.sharifulbony.api.interview.InterviewEntity;
+import com.sharifulbony.api.interview.InterviewRepository;
+import com.sharifulbony.api.language.LanguageEntity;
+import com.sharifulbony.api.language.LanguageRepository;
+import com.sharifulbony.api.programminglanguage.ProgrammingLanguageEntity;
+import com.sharifulbony.api.programminglanguage.ProgrammingLanguageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -85,8 +84,8 @@ public class DatabaseSeeder implements CommandLineRunner {
             int maxla = Math.max(la,lb);
             int minla = Math.min(la,lb);
 
-            developerEntities.get(i).setProgrammingLanguageEntities(programmingLanguageEntities.subList(min, max));
-            developerEntities.get(i).setLanguageEntities(languageEntities.subList(maxla-5>0?maxla-rand.nextInt(5):0, maxla));
+//            developerEntities.get(i).setProgrammingLanguageEntities(programmingLanguageEntities.subList(min, max));
+//            developerEntities.get(i).setLanguageEntities(languageEntities.subList(maxla-5>0?maxla-rand.nextInt(5):0, maxla));
 
 
 
@@ -97,7 +96,7 @@ public class DatabaseSeeder implements CommandLineRunner {
             int b = rand.nextInt(developerEntities.size());
             int max = Math.max(a,b);
             int min = Math.min(a,b);
-            if(i%3!=0)programmingLanguageEntities.get(i).setDeveloperEntitiesP(developerEntities.subList(min,max));
+//            if(i%3!=0)programmingLanguageEntities.get(i).setDeveloperEntitiesP(developerEntities.subList(min,max));
         }
 
         developerRepository.save(developerEntities);

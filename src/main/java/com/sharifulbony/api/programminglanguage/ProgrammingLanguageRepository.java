@@ -1,4 +1,4 @@
-package com.forhadmethun.simplesearchapplication.programminglanguage;
+package com.sharifulbony.api.programminglanguage;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

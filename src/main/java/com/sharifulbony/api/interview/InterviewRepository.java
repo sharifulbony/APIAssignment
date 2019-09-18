@@ -1,4 +1,4 @@
-package com.forhadmethun.simplesearchapplication.interview;
+package com.sharifulbony.api.interview;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
