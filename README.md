@@ -1,2 +1,2 @@
-# Simple-Search-Application
-Spring, JPA, Hibernate, HTML, CSS, VueJS, Database
+# API Application
+Spring, JPA, Hibernate, HTML, CSS, VueJS, HSQL Database
