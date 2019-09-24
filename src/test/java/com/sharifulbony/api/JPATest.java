@@ -35,4 +35,22 @@ public class JPATest {
         assertThat(found.getName())
                 .isEqualTo(sampleTestProduct.getName());
     }
+
+    @Test
+    public void checkIfUpdateProduct() {
+        // given
+        ProductEntity sampleTestProduct = new ProductEntity("sampleTestProduct");
+        entityManager.persist(sampleTestProduct);
+        entityManager.flush();
+
+//         when
+        String changedName="changedName";
+        sampleTestProduct.setName(changedName);
+
+        entityManager.persistAndFlush(sampleTestProduct);
+
+        // then
+        assertThat(sampleTestProduct.getName())
+                .isEqualTo(changedName);
+    }
 }
