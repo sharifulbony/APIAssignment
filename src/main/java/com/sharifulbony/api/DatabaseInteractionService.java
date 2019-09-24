@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Random;
 
 @Service
-public class DAO {
+public class DatabaseInteractionService {
 
     private SessionFactory sessionFactory;
 
@@ -36,64 +36,38 @@ public class DAO {
 
     @Autowired
     ProductCategoryRepository productCategoryRepository;
-    public List<Object[]> searchByProgrammingLanguage(String name) {
-        Session s = sessionFactory.openSession();
-        Transaction tx = s.beginTransaction();
-        String query2 =
-                "SELECT per.id,\n" +
-                        "  per.email,\n" +
-                        "  conf.code,\n" +
-                        "  pub.name\n" +
-                        "FROM Developers AS per\n" +
-                        "  LEFT JOIN developers_languages AS pconf\n" +
-                        "    ON per.id = pconf.developersid\n" +
-                        "  LEFT JOIN languages AS conf\n" +
-                        "    ON pconf.languagesid = conf.id\n" +
-                        "  LEFT JOIN programming_languages_developers AS ppub\n" +
-                        "    ON per.id = ppub.developersid\n" +
-                        "  LEFT JOIN programming_languages AS pub\n" +
-                        "    ON ppub.programming_languagesid = pub.id\n";
-        if (name.length() != 0) query2 += "  where pub.name = :name";
-        List<Object[]> rows;
-        if (name.length() != 0) {
-            rows = s.createSQLQuery(query2).setString("name", name).list();
-        } else rows = s.createSQLQuery(query2).list();
-        tx.commit();
-        s.close();
-        return rows;
-    }
 
+    public List<ProductEntity> getProductByCategory(int category_id) {
 
-    public List<Table> getProductByCategory(int category) {
-
-        Session s = sessionFactory.openSession();
-        Transaction tx = s.beginTransaction();
-
-        String query = "select id ,name from PRODUCT inner join PRODUCT_CATEGORY PC on PRODUCT.ID = PC.PRODUCT_ID where PC.CATEGORY_ID = :category";
-
-        List<Table> productEntities = s.createSQLQuery(query)
-                .setInteger("category", category)
-                .setResultTransformer(Transformers.aliasToBean(Table.class))
-                .list();
-        tx.commit();
-        s.close();
-
-
-//        for (Object[]  o:productEntities
-//             ) {
-//            Table table=new Table();
-//            table.setId();
-//        }
+        List<ProductCategoryEntity> productCategoryEntities=productCategoryRepository.findByCategory(category_id);
+        if(productCategoryEntities==null || productCategoryEntities.size()==0){
+            throw new RequestRejectedException("No data found" );
+        }
+        List<Integer> productIds=new ArrayList<>();
+        for (ProductCategoryEntity productCategoryEntity : productCategoryEntities
+        ){
+            productIds.add(productCategoryEntity.getProduct_id());
+        }
+        List<ProductEntity> productEntities=productRepository.findBYIdList(productIds);
+        if(productEntities==null||productEntities.size()==0){
+            throw new RequestRejectedException("No data found" );
+        }
 
         return productEntities;
 
     }
 
-    public long createProductItem(JSONObject data) {
+    public ProductEntity createProductItem(JSONObject data) {
 
         String name="";
         if (data.containsKey("name")) {
             name = data.get("name").toString();
+            if(name.length()<1){
+                throw new RequestRejectedException("Product Name should Contain atLeast one letter");
+            }
+        }
+        else{
+            throw new RequestRejectedException("A product should have a name");
         }
 
         ArrayList<Integer> categories=new ArrayList<>();
@@ -105,16 +79,19 @@ public class DAO {
         for (Integer item:categories
              ) {
             CategoryEntity categoryEntity= categoryRepository.findOne( item);
-            categoryEntities.add(categoryEntity);
+            if(categoryEntity!=null){
+
+                categoryEntities.add(categoryEntity);
+            }
 
         }
 
         ProductEntity productEntity = new ProductEntity(name, categoryEntities);
         productRepository.save(productEntity);
-        return productEntity.getId();
+        return productEntity;
     }
 
-    public String updateProductItem(JSONObject data) {
+    public ProductEntity  updateProductItem(JSONObject data) {
 
         Integer id = null;
         if (data.containsKey("id")) {
@@ -135,15 +112,16 @@ public class DAO {
             name = data.get("name").toString();
             if(name.length()>0){
                 productEntity.setName(name);
+            }else {
+                throw new RequestRejectedException("Product name should contain at least one character");
             }
         }
 
         addAssociation(data,id);
         removeAssociation(data);
         productRepository.save(productEntity);
-        return name;
+        return productEntity;
     }
-
 
     public  void removeAssociation(JSONObject data){
 
@@ -151,11 +129,15 @@ public class DAO {
         Transaction transaction = session.beginTransaction();
         ArrayList<Integer> removedCategories=new ArrayList<>();
         if (data.containsKey("remove-categories")) {
-            //todo get association and if no association throw error
             removedCategories= (ArrayList<Integer>) data.get("remove-categories");
             if(removedCategories!=null && removedCategories.size()>0) {
                 for (Integer catId : removedCategories
                 ) {
+
+                    CategoryEntity categoryEntity=categoryRepository.findOne(catId);
+                    if(categoryEntity==null){
+                        throw new RequestRejectedException("Unable to find specified category to delete  relation");
+                    }
                     String query = "delete  from PRODUCT_CATEGORY WHERE CATEGORY_ID = :association";
                     session.createSQLQuery(query)
                             .setLong("association", catId)
@@ -179,6 +161,10 @@ public class DAO {
         for (Integer item:addCategories
         ) {
             ProductCategoryEntity productCategoryEntity = new ProductCategoryEntity();
+            CategoryEntity categoryEntity=categoryRepository.findOne(item);
+            if(categoryRepository==null){
+                throw new RequestRejectedException("Specified Category is not present in the database");
+            }
             productCategoryEntity.setCategory_id(item);
             productCategoryEntity.setProduct_id(id);
             productCategoryRepository.save(productCategoryEntity);
@@ -186,13 +172,11 @@ public class DAO {
 
     }
 
-    public boolean deleteProductItem(long id) {
+    public boolean deleteProductItem(Integer id) {
 
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
-
         ProductEntity productEntity = session.get(ProductEntity.class,id);
-
         if (productEntity != null) {
 
 
@@ -213,31 +197,37 @@ public class DAO {
     }
 
 
-
     public long createCategoryItem(String name) {
+        if(name.length()<1){
+            throw new RequestRejectedException("category name should contain at least one character");
+        }
         CategoryEntity categoryEntity = new CategoryEntity(name);
         categoryRepository.save(categoryEntity);
         return categoryEntity.getId();
     }
 
-    public boolean updateCategoryItem(Integer id, String name) {
+    public CategoryEntity updateCategoryItem(Integer id, String name) {
+
+        if(name.length()<1){
+            throw new RequestRejectedException("name should contain at least one character ");
+        }
         CategoryEntity categoryEntity = categoryRepository.findOne(id);
+        if(categoryEntity==null){
+            throw new RequestRejectedException("No data found with Id: "+id);
+        }
+
         categoryEntity.setName(name);
         categoryRepository.save(categoryEntity);
-        return true;
+        return categoryEntity;
     }
 
-    public boolean deleteCategoryItem(long id) {
+    public boolean deleteCategoryItem(Integer id) {
 
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
-
-//        CategoryEntity categoryEntity = categoryRepository.findOne(id);
         CategoryEntity categoryEntity = session.get(CategoryEntity.class,id);
 
         if (categoryEntity != null) {
-
-
             String query = "delete  from PRODUCT_CATEGORY WHERE CATEGORY_ID = :association";
             session.createSQLQuery(query)
                     .setLong("association", id)
@@ -254,12 +244,8 @@ public class DAO {
 
     }
 
-
-
-
-
     @Autowired
-    public DAO(EntityManagerFactory factory) {
+    public DatabaseInteractionService(EntityManagerFactory factory) {
         if (factory.unwrap(SessionFactory.class) == null) {
             throw new NullPointerException("factory is not a hibernate factory");
         }

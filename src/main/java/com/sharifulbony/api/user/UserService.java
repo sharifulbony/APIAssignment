@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.firewall.RequestRejectedException;
 import org.springframework.stereotype.Service;
 
 
@@ -15,14 +16,14 @@ import org.springframework.stereotype.Service;
 public class UserService implements UserDetailsService {
 	
 	@Autowired
-	private UserRepository userDao;
+	private UserRepository userRepository;
 
 	@Autowired
 	private PasswordEncoder bcryptEncoder;
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		UserEntity user = userDao.findByUsername(username);
+		UserEntity user = userRepository.findByUsername(username);
 		if (user == null) {
 			throw new UsernameNotFoundException("User not found with username: " + username);
 		}
@@ -33,7 +34,12 @@ public class UserService implements UserDetailsService {
 	public UserEntity save(UserDTO user) {
 		UserEntity newUser = new UserEntity();
 		newUser.setUsername(user.getUsername());
+		 UserEntity userEntity=userRepository.findByUsername(user.getUsername());
+		 if(userEntity!=null){
+		 	throw new RequestRejectedException("User is already registered");
+		 }
+
 		newUser.setPassword(bcryptEncoder.encode(user.getPassword()));
-		return userDao.save(newUser);
+		return userRepository.save(newUser);
 	}
 }
