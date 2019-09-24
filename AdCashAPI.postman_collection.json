@@ -1,0 +1,406 @@
+{
+	"info": {
+		"_postman_id": "c550b2b7-f9b6-4bfe-b822-851c494ae55c",
+		"name": "AdCashAPI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Category",
+			"item": [
+				{
+					"name": "all-category",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8081/all-category",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"all-category"
+							]
+						},
+						"description": "return all category"
+					},
+					"response": []
+				},
+				{
+					"name": "create-category",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "localhost:8081/create-category?name=bony",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"create-category"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "bony"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update-category",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzYW1wbGUiLCJleHAiOjE1NjkwOTM1NTYsImlhdCI6MTU2OTA3NTU1Nn0.lyTCdMY4DmsibxVoo-ccW9p1BalonMi3_5ZTMr_BnY-QKYoXola1sh39rEvtmCAWV-MbOxzbuPMMZzQd_mWweA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "localhost:8081/update-category?id=6&name=newBony",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"update-category"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "6"
+								},
+								{
+									"key": "name",
+									"value": "newBony"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete-category",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzYW1wbGUiLCJleHAiOjE1NjkzNDU4MzYsImlhdCI6MTU2OTMyNzgzNn0.L3xIyjHTUm58z6NxDbAVb-E4jTKYcFDA1fS8jr4yFzMpcdNidOft3hNgXbAEqGskpBxaxxtJ4vz76UuBj6f_tQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "localhost:8081/delete-category?id=5",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"delete-category"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Product",
+			"item": [
+				{
+					"name": "all-product",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8081/all-product",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"all-product"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete-product",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzYW1wbGUiLCJleHAiOjE1NjkxNzEzNzcsImlhdCI6MTU2OTE1MzM3N30.U-nsjU5RGAouH1A3aWt1V0ahOx_-q-Nb0yMIdlga2YLwaWC-pbskIzqcCciHsPPXqoUeNM-VeJ-ixGXuktidtA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "localhost:8081/delete-product?id=6",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"delete-product"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "6"
+								}
+							]
+						},
+						"description": "Param:\nid"
+					},
+					"response": []
+				},
+				{
+					"name": "create-product",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzYW1wbGUiLCJleHAiOjE1NjkzNDU4MzYsImlhdCI6MTU2OTMyNzgzNn0.L3xIyjHTUm58z6NxDbAVb-E4jTKYcFDA1fS8jr4yFzMpcdNidOft3hNgXbAEqGskpBxaxxtJ4vz76UuBj6f_tQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"name\":\"sample\",\n\t\t\"categories\":[1,2]\n}\n\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8081/create-product?",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"create-product"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "sample",
+									"disabled": true
+								},
+								{
+									"key": "categories",
+									"value": null,
+									"disabled": true
+								}
+							]
+						},
+						"description": "request param:\nname"
+					},
+					"response": []
+				},
+				{
+					"name": "update-product",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzYW1wbGUiLCJleHAiOjE1NjkxNzYzNzMsImlhdCI6MTU2OTE1ODM3M30.-dLw3IJBirdRtkItaDveOxY2jHz2Hg3PzltkGYbSBhFFrMn3pKL6YPsCh9SxtkjdcwOuQR1pIG2FwktrFvuP0A",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"id\":5,\n\t\t\"name\":\"\",\n\t\t\"remove-categories\":[3],\n\t\t\"add-categories\":[2]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8081/update-product",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"update-product"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "product-by-category",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "localhost:8081/product-by-category?category=3",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"product-by-category"
+							],
+							"query": [
+								{
+									"key": "category",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "register",
+			"request": {
+				"auth": {
+					"type": "bearer"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\":\"sample\",\n\t\"password\":\"blahblah\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8081/register",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "authenticate",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\":\"sample\",\n\t\"password\":\"blahblah\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8081/authenticate",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"authenticate"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

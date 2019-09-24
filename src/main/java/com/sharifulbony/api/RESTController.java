@@ -17,6 +17,7 @@ import io.swagger.annotations.ApiParam;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
@@ -31,7 +32,6 @@ import java.util.*;
  *
  */
 @RestController
-@CrossOrigin
 @RequestMapping(value = "")
 @Api(value = "Product Inventory System", description = "Operations related to Product Inventory Management System")
 
@@ -43,9 +43,6 @@ public class RESTController {
     @Autowired
 
     private CategoryRepository categoryRepository;
-
-    @Autowired
-    private ProductRepository productRepository;
 
     @Autowired
     UserRepository userRepository;
@@ -116,6 +113,7 @@ public class RESTController {
     }
 
     @RequestMapping(value = "/create-category", method = RequestMethod.POST)
+    @PreAuthorize("authenticated")
     @ApiOperation(value = DocumentationStaticContext.createCategoryDescription, response = Iterable.class)
     public String createCategory(@ApiParam(value = DocumentationStaticContext.createCategoryParam, required = true) @RequestParam String name) {
         long id = -1;
